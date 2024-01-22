@@ -188,13 +188,12 @@ def _format_module_members(
             _log.debug("Ignoring submodule %s", submodule.qualname)
             continue
 
-        for line in format_module_summary(
+        yield from format_module_summary(
             submodule,
             docstring_detail=docstring_detail,
             include_imported=include_imported,
             name_check=name_check,
-        ):
-            yield line
+        )
 
     def by_class_location(cls: Type) -> tuple[bool, bool, str]:
         # Order by classes in the same module first, then classes outside the module

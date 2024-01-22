@@ -135,13 +135,14 @@ documember (__all__)
 $ documember documember --ignore-all
 documember (__all__)
   DocstringDetail (undocumented)
+    FULL
+    NONE
+    ONE_LINE
+  ModuleSummary
+    .name
+    .qualname
+    .all
     ...
-  _all_status (undocumented)
-  _docstring_snippet (undocumented)
-  _documented_status (undocumented)
-  _format_class_members (undocumented)
-  _format_class_summary (undocumented)
-  ...
 ```
 
 ## License

@@ -62,7 +62,10 @@ def parse_module(
     doc = inspect.getdoc(module) or ""
     parsed = ModuleSummary(name=name, qualname=qualname, all=all_, doc=doc)
 
-    members = _get_module_members(module, all_=all_)
+    members = _get_module_members(
+        module,
+        all_=None if ignore_all else all_,
+    )
     for name, value in members.items():
         if getattr(value, "__package__", "").startswith(module.__name__):
             value = cast(types.ModuleType, value)

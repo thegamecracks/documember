@@ -25,14 +25,14 @@ asyreader (undocumented)
       close()
       read()
       start()
-    Readable (undocumented)
+    Readable (inherited)
       close() (undocumented)
       read() (undocumented)
   AsyncReader
     close()
     read()
     start()
-  Readable (undocumented)
+  Readable (inherited)
     close() (undocumented)
     read() (undocumented)
 ```
@@ -64,7 +64,7 @@ asyreader (undocumented)
     AsyncReader
       __aenter__() (undocumented)
       __aexit__() (undocumented)
-      __init__() (undocumented)
+      __init__() (inherited)
       close()
       ...
 ```
@@ -106,7 +106,7 @@ asyreader (undocumented)
       close()
       read()
       start()
-    Readable (undocumented)
+    Readable (inherited)
       close() (undocumented)
       read() (undocumented)
     typing.Any
@@ -141,10 +141,10 @@ documember (__all__)
     NONE
     ONE_LINE
   ModuleSummary
-    .name
-    .qualname
-    .all
     ...
+  format_module_summary
+  main (undocumented)
+  parse_module
 ```
 
 ## License

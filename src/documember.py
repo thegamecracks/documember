@@ -9,7 +9,7 @@ import logging
 import sys
 import types
 from dataclasses import dataclass, field
-from typing import Callable, Iterator, Type, cast
+from typing import Callable, Collection, Iterator, Type, cast
 
 __all__ = ("ModuleSummary", "parse_module", "format_module_summary")
 
@@ -23,6 +23,7 @@ class ModuleSummary:
     # NOTE: @dataclass implicitly generates a docstring so this counts as documented
     name: str
     qualname: str
+    all: list[str] | None
     doc: str
     submodules: list[ModuleSummary] = field(default_factory=list)
     classes: list[Type] = field(default_factory=list)
@@ -46,10 +47,15 @@ def parse_module(
     #       but doing it here is convenient
     name = module.__name__.split(".")[-1]
     qualname = module.__name__
-    doc = inspect.getdoc(module) or ""
-    parsed = ModuleSummary(name=name, qualname=qualname, doc=doc)
 
-    members = _get_module_members(module, ignore_all=ignore_all)
+    all_: list[str] | None = None
+    if hasattr(module, "__all__"):
+        all_ = list(module.__all__)
+
+    doc = inspect.getdoc(module) or ""
+    parsed = ModuleSummary(name=name, qualname=qualname, all=all_, doc=doc)
+
+    members = _get_module_members(module, all_=all_)
     for name, value in members.items():
         if getattr(value, "__package__", "").startswith(module.__name__):
             value = cast(types.ModuleType, value)
@@ -71,7 +77,7 @@ def parse_module(
 def _get_module_members(
     module: types.ModuleType,
     *,
-    ignore_all: bool,
+    all_: Collection[str] | None,
 ) -> dict[str, object]:
     def by_type(name: str) -> tuple[bool, str]:
         # Order by modules first, then non-modules
@@ -80,8 +86,8 @@ def _get_module_members(
         return not inspect.ismodule(value), name
 
     names = vars(module).keys()
-    if not ignore_all and hasattr(module, "__all__"):
-        names = names & set(module.__all__)
+    if all_ is not None:
+        names = names & set(all_)
     names = sorted(names, key=by_type)
 
     return {name: getattr(module, name) for name in names}
@@ -112,7 +118,7 @@ def format_module_summary(
 
     """
     _log.info("Formatting module %s", module.qualname)
-    yield module.name + _documented_status(module)
+    yield module.name + _all_status(module) + _documented_status(module)
 
     for line in _docstring_snippet(module.doc, docstring_detail):
         yield _INDENT + line
@@ -124,6 +130,10 @@ def format_module_summary(
         name_check=name_check,
     ):
         yield _INDENT + line
+
+
+def _all_status(module: ModuleSummary) -> str:
+    return "" if module.all is None else " (__all__)"
 
 
 def _documented_status(x: object) -> str:

@@ -165,7 +165,7 @@ def _is_documented(x: object) -> bool:
     if isinstance(x, ModuleSummary):
         doc = x.doc
     else:
-        doc = getattr(x, "__doc__", "")
+        doc = inspect.getdoc(x)
     return doc is not None and doc != ""
 
 

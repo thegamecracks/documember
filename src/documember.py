@@ -1,9 +1,20 @@
-"""Import a given module and scan its members.
+"""Import a given module and scan its members for documentation.
 
-By default, documember will take into consideration a module's __all__ variable
-if defined, limiting what members will be checked. This takes precedent over
-other options like --include-imported and --include-private. If you want to
-bypass this restriction, you should use the --ignore-all option.
+By default, documenter only shows public, non-dunder members defined by the module,
+that being members which don't have a _leading underscore or __double__ underscores.
+This can be controlled with the following options:
+
+    --include-dunder: Members with __double__ underscores are included.
+    --include-imported: Members imported from other modules are included.
+    --include-private: Members with a _leading underscore are included.
+
+documember will take into consideration a module's __all__ variable if defined,
+limiting what members will be checked. This takes precedent over the above options.
+If you want to bypass this restriction, you can use the --ignore-all option.
+
+If you want to show the docstrings for the given members, you can use the
+--show-docstrings/--show-full-docstrings options.
+As a limitation, docstrings cannot be provided for variables or attributes.
 
 """
 from __future__ import annotations

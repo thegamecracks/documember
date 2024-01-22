@@ -1,4 +1,11 @@
-"""Import a given module and scan its members."""
+"""Import a given module and scan its members.
+
+By default, documember will take into consideration a module's __all__ variable
+if defined, limiting what members will be checked. This takes precedent over
+other options like --include-imported and --include-private. If you want to
+bypass this restriction, you should use the --ignore-all option.
+
+"""
 from __future__ import annotations
 
 import argparse
@@ -290,7 +297,10 @@ def _format_class_members(
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     parser.add_argument(
         "module",
         help="The module to scan",

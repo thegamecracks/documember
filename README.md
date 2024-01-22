@@ -101,7 +101,9 @@ asyreader (undocumented)
       read()
         Request the file to be read by the reader thread.
       ...
+```
 
+```ruby
 $ documember asyreader --show-full-docstrings
 asyreader (undocumented)
   reader (undocumented)

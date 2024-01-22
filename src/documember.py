@@ -233,6 +233,7 @@ def _format_module_members(
         if module_name.startswith(module.qualname):
             _log.info("Formatting function %s.%s", module.qualname, func.__name__)
             yield func.__name__ + _documented_status(func)
+            yield from _docstring_snippet(func, docstring_detail)
         elif include_imported:
             _log.info("Formatting function %s.%s", module_name, func.__name__)
             yield f"{module_name}.{func.__name__}"

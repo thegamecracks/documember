@@ -1,5 +1,7 @@
 # Documember
 
+[![](https://img.shields.io/github/actions/workflow/status/thegamecracks/documember/black.yml?style=flat-square&label=black)](https://black.readthedocs.io/en/stable/)
+
 A Python application to scan a given module for undocumented members.
 
 ## Usage

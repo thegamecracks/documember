@@ -69,6 +69,26 @@ asyreader (undocumented)
       ...
 ```
 
+Showing imported members:
+
+```ruby
+$ documember asyreader --include-imported
+asyreader (undocumented)
+  reader (undocumented)
+    AsyncReader
+      close()
+      read()
+      start()
+    Readable (inherited)
+      close() (undocumented)
+      read() (undocumented)
+    typing.Any
+    typing.Generic
+    typing.ParamSpec
+    typing.Protocol
+    ...
+```
+
 Showing docstrings for members that are documented:
 
 ```ruby
@@ -94,26 +114,6 @@ asyreader (undocumented)
 
         This method is idempotent.
       ...
-```
-
-Showing imported members:
-
-```ruby
-$ documember asyreader --include-imported
-asyreader (undocumented)
-  reader (undocumented)
-    AsyncReader
-      close()
-      read()
-      start()
-    Readable (inherited)
-      close() (undocumented)
-      read() (undocumented)
-    typing.Any
-    typing.Generic
-    typing.ParamSpec
-    typing.Protocol
-    ...
 ```
 
 Showing members in a module that defines [`__all__`](https://docs.python.org/3/tutorial/modules.html#importing-from-a-package):

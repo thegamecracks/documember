@@ -27,7 +27,7 @@ import logging
 import sys
 import types
 from dataclasses import dataclass, field
-from typing import Callable, Collection, Iterator, Type, cast
+from typing import Callable, Collection, Iterable, Iterator, Type, cast
 
 __all__ = ("ModuleSummary", "parse_module", "format_module_summary")
 
@@ -140,17 +140,15 @@ def format_module_summary(
     """
     _log.info("Formatting module %s", module.qualname)
     yield module.name + _all_status(module) + _documented_status(module)
-
-    for line in _docstring_snippet(module.doc, docstring_detail):
-        yield _INDENT + line
-
-    for line in _format_module_members(
-        module,
-        docstring_detail=docstring_detail,
-        include_imported=include_imported,
-        name_check=name_check,
-    ):
-        yield _INDENT + line
+    yield from _indented(_docstring_snippet(module.doc, docstring_detail))
+    yield from _indented(
+        _format_module_members(
+            module,
+            docstring_detail=docstring_detail,
+            include_imported=include_imported,
+            name_check=name_check,
+        ),
+    )
 
 
 def _all_status(module: ModuleSummary) -> str:
@@ -191,6 +189,11 @@ def _docstring_snippet(doc: object, detail: DocstringDetail) -> Iterator[str]:
         yield lines[0]
     elif detail == DocstringDetail.FULL:
         yield from lines
+
+
+def _indented(lines: Iterable[str], *, level: int = 1) -> Iterator[str]:
+    for line in lines:
+        yield _INDENT * level + line
 
 
 def _format_module_members(
@@ -277,12 +280,13 @@ def _format_class_summary(
 
     _log.info("Formatting class %s.%s", module.qualname, cls.__name__)
     yield cls.__name__ + _documented_status(cls)
-    for line in _format_class_members(
-        cls,
-        docstring_detail=docstring_detail,
-        name_check=name_check,
-    ):
-        yield _INDENT + line
+    yield from _indented(
+        _format_class_members(
+            cls,
+            docstring_detail=docstring_detail,
+            name_check=name_check,
+        ),
+    )
 
 
 def _format_class_members(
@@ -309,8 +313,7 @@ def _format_class_members(
         elif inspect.isfunction(value):
             _log.info("Formatting method %s.%s", cls.__name__, name)
             yield name + "()" + _documented_status(value)
-            for line in _docstring_snippet(value, docstring_detail):
-                yield _INDENT + line
+            yield from _indented(_docstring_snippet(value, docstring_detail))
         else:
             _log.info("Formatting class attribute %s.%s", cls.__name__, name)
             yield name

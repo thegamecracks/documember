@@ -7,7 +7,7 @@ A Python application to scan a given module for undocumented members.
 With Python 3.11+ and Git, you can install this application with:
 
 ```py
-pip install git+https://github.com/thegamecracks/documember
+pip install git+https://github.com/thegamecracks/documember@v0.1.3
 ```
 
 Then invoke the CLI using `documember` or `python -m documember`.

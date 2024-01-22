@@ -329,14 +329,14 @@ def main():
     docstring = parser.add_mutually_exclusive_group()
     docstring.set_defaults(docstring_detail=DocstringDetail.NONE)
     docstring.add_argument(
-        "--show-docstring",
+        "--show-docstrings",
         action="store_const",
         const=DocstringDetail.ONE_LINE,
         dest="docstring_detail",
         help="Show the first line of each member's docstring",
     )
     docstring.add_argument(
-        "--show-full-docstring",
+        "--show-full-docstrings",
         action="store_const",
         const=DocstringDetail.FULL,
         dest="docstring_detail",

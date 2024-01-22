@@ -158,15 +158,21 @@ def _all_status(module: ModuleSummary) -> str:
 
 
 def _documented_status(x: object) -> str:
-    return "" if _is_documented(x) else " (undocumented)"
-
-
-def _is_documented(x: object) -> bool:
     if isinstance(x, ModuleSummary):
-        doc = x.doc
+        is_documented = x.doc != ""
+        is_inherited = False
     else:
         doc = inspect.getdoc(x)
-    return doc is not None and doc != ""
+        raw_doc = getattr(x, "__doc__", None) or ""
+        is_documented = doc is not None and doc != ""
+        is_inherited = is_documented and raw_doc == ""
+
+    if is_documented and is_inherited:
+        return " (inherited)"
+    elif is_documented and not is_inherited:
+        return ""
+    else:
+        return " (undocumented)"
 
 
 def _docstring_snippet(doc: object, detail: DocstringDetail) -> Iterator[str]:

@@ -119,6 +119,8 @@ asyreader (undocumented)
 Showing members in a module that defines [`__all__`](https://docs.python.org/3/tutorial/modules.html#importing-from-a-package):
 
 ```ruby
+# In this case,
+# __all__ = ("ModuleSummary", "parse_module", "format_module_summary")
 $ documember documember
 documember (__all__)
   ModuleSummary

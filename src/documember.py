@@ -295,9 +295,12 @@ def _format_class_members(
     docstring_detail: DocstringDetail,
     name_check: Callable[[str], bool],
 ) -> Iterator[str]:
+    def is_method(value: object) -> bool:
+        return inspect.isfunction(value) or inspect.ismethoddescriptor(value)
+
     def by_type(item):
         name, value = item
-        return not inspect.isfunction(value), name
+        return not is_method(value), name
 
     for name, _ in getattr(cls, "__annotations__", {}).items():
         if not name_check(name):
@@ -310,7 +313,7 @@ def _format_class_members(
         if not name_check(name):
             _log.debug("Ignoring %s.%s", cls.__name__, name)
             continue
-        elif inspect.isfunction(value):
+        elif is_method(value):
             _log.info("Formatting method %s.%s", cls.__name__, name)
             yield name + "()" + _documented_status(value)
             yield from _indented(_docstring_snippet(value, docstring_detail))

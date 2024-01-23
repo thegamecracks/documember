@@ -152,6 +152,10 @@ documember (__all__)
   parse_module
 ```
 
+## Resources
+
+- Changelog: [CHANGELOG.md](/CHANGELOG.md)
+
 ## License
 
 This project can be used under the MIT License.

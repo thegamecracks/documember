@@ -319,7 +319,7 @@ def _format_class_members(
             yield from _indented(_docstring_snippet(value, docstring_detail))
         else:
             _log.info("Formatting class attribute %s.%s", cls.__name__, name)
-            yield name
+            yield "." + name
 
 
 def main():

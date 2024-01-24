@@ -233,7 +233,6 @@ def _format_module_members(
         module_name = getattr(inspect.getmodule(cls), "__name__", "")
         if not module_name.startswith(module.qualname) and not include_imported:
             _log.debug("Ignoring class %s.%s", module_name, cls.__name__)
-            _log.debug("%s, %s, %s", module_name, module.qualname, include_imported)
             continue
 
         yield from _format_class_summary(

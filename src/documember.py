@@ -1,6 +1,6 @@
 """Import a given module and scan its members for documentation.
 
-By default, documenter only shows public, non-dunder members defined by the module,
+By default, documember only shows public, non-dunder members defined by the module,
 that being members which don't have a _leading underscore or __double__ underscores.
 This can be controlled with the following options:
 
